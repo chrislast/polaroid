@@ -52,5 +52,7 @@ def main(*args):
         cv2.imshow("image", quant)
         # cv2.imshow("image", np.hstack([image, quant]))
 
+    cv2.imwrite("result.jpg", quant)
+
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
