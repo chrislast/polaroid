@@ -11,7 +11,7 @@ def main(*args):
     print(args)
     photo = args[0][-1]
     img = cv2.imread(photo)
-    small = cv2.resize(img, (210, 102))
+    small = cv2.resize(img, (210*1, 102*1))
     (h, w) = small.shape[:2]
 
     # convert the image from the RGB color space to the L*a*b*
@@ -39,6 +39,13 @@ def main(*args):
     quant = cv2.cvtColor(quant, cv2.COLOR_LAB2BGR)
     image = cv2.cvtColor(image, cv2.COLOR_LAB2BGR)
 
+    palette = dict()
+    for _ in quant.tolist():
+        for x, y, z in _:
+            palette[x*y*z] = [x, y, z]
+
+    BYW = sorted(palette.keys())
+
     while True:
         key = cv2.waitKey(1) & 0xFF
 
@@ -49,8 +56,8 @@ def main(*args):
         #cv2.imshow('small', small)
 
         # display the images and wait for a keypress
-        cv2.imshow("image", quant)
-        # cv2.imshow("image", np.hstack([image, quant]))
+        #cv2.imshow("image", quant)
+        cv2.imshow("image", np.hstack([image, quant]))
 
     cv2.imwrite("result.jpg", quant)
 
